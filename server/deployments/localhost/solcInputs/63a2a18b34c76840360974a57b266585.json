@@ -1,0 +1,35 @@
+{
+  "language": "Solidity",
+  "sources": {
+    "contracts/FundContract.sol": {
+      "content": "//SPDX-License-Identifier: MIT\n\npragma solidity 0.8.8;\n\nerror FundMe__NotOwner();\n\ncontract FundContract {\n  uint256 private constant MIN_WEI = 1e16;\n\n  address private immutable i_owner;\n\n  address[] private s_funders;\n  mapping(address => uint256) private s_address2Amt;\n  uint256 private totalAmount;\n\n  constructor() {\n    i_owner = msg.sender;\n    totalAmount = 0;\n  }\n\n  modifier isOwner() {\n    if (msg.sender != i_owner) revert FundMe__NotOwner();\n    _;\n  }\n\n  receive() external payable {\n    fund();\n  }\n\n  fallback() external payable {\n    fund();\n  }\n\n  function fund() public payable {\n    require(msg.value >= MIN_WEI, \"Not Enough ETH\");\n    if (s_address2Amt[msg.sender] == 0) {\n      s_funders.push(msg.sender);\n    }\n    s_address2Amt[msg.sender] += msg.value;\n    totalAmount += msg.value;\n  }\n\n  function withdraw() public isOwner {\n    (bool isSuccess, ) = payable(msg.sender).call{value: address(this).balance}(\n      \"\"\n    );\n    require(isSuccess, \"Call failed\");\n  }\n\n  function getOwner() public view returns (address) {\n    return i_owner;\n  }\n\n  function getAddress2Amt(address funder) public view returns (uint256) {\n    return s_address2Amt[funder];\n  }\n\n  function getFunder(uint256 index) public view returns (address) {\n    return s_funders[index];\n  }\n\n  function getBalance() public view returns (uint256) {\n    return address(this).balance;\n  }\n\n  function getTotalAmount() public view returns (uint256) {\n    return totalAmount;\n  }\n}\n"
+    }
+  },
+  "settings": {
+    "optimizer": {
+      "enabled": false,
+      "runs": 200
+    },
+    "outputSelection": {
+      "*": {
+        "*": [
+          "abi",
+          "evm.bytecode",
+          "evm.deployedBytecode",
+          "evm.methodIdentifiers",
+          "metadata",
+          "devdoc",
+          "userdoc",
+          "storageLayout",
+          "evm.gasEstimates"
+        ],
+        "": [
+          "ast"
+        ]
+      }
+    },
+    "metadata": {
+      "useLiteralContent": true
+    }
+  }
+}

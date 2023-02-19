@@ -7,7 +7,7 @@ export default function Home() {
         <>
             <title>Fund Me Contract</title>
             <div className="">
-                <h1 className="font-medium leading-tight text-3xl mt-2 mb-1 pt-2 text-center font-sans">
+                <h1 className="font-medium leading-tight text-2xl mt-2 mb-1 pt-2 text-center font-sans">
                     🐶 Welcome to XYZ Animal Care Organization's Funding Site 😺
                 </h1>
                 <Header />
