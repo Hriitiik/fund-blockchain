@@ -8,6 +8,7 @@ export default function Details() {
     const [owner, setOwner] = useState("0x00")
     const [totalAmt, setTotalAmt] = useState("0")
     const [currentBalance, setCurrentBalance] = useState("0")
+    const [myFund, setMyFund] = useState("0")
     const chainId = parseInt(chainIdHex)
     const fundAddress =
         chainId in contractAddresses ? contractAddresses[chainId][0] : null
@@ -35,6 +36,15 @@ export default function Details() {
         functionName: "withdraw",
         params: {},
     })
+
+    const { runContractFunction: getAddress2Amt } = useWeb3Contract({
+        abi: abi,
+        contractAddress: fundAddress,
+        functionName: "getAddress2Amt",
+        params: {
+            funder: account,
+        },
+    })
     async function updateUi() {
         const owner = await getOwner()
         setOwner(owner)
@@ -42,6 +52,8 @@ export default function Details() {
         setTotalAmt(totalAmt)
         const currentBal = (await getCurrentBalance()).toString()
         setCurrentBalance(currentBal)
+        const myFund = (await getAddress2Amt()).toString()
+        setMyFund(myFund)
     }
     useEffect(() => {
         if (isWeb3Enabled) {
@@ -95,6 +107,9 @@ export default function Details() {
             <br />
             <p>Contract Address: {fundAddress}</p>
             <br />
+            <p>
+                My Funded Amount: {parseFloat(myFund) / parseFloat(1e18)} Ethers
+            </p>
         </div>
     )
 }
