@@ -5,9 +5,9 @@ import Details from "../components/Details"
 export default function Home() {
     return (
         <>
-            <title>Fund Me Contract</title>
-            <div className="">
-                <h1 className="font-medium leading-tight text-2xl mt-2 mb-1 pt-2 text-center font-sans">
+            <div className="h-screen bg-[#ECF9FF] text-[#301E67] overflow-hidden text-xl">
+                <title>Fund Me Contract</title>
+                <h1 className="text-5xl leading-tight mt-8 mb-3 pt-2 text-center font-bold">
                     🐶 Welcome to XYZ Animal Care Organization's Funding Site 😺
                 </h1>
                 <Header />

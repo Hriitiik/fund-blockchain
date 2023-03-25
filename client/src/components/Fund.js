@@ -5,8 +5,8 @@ import { useNotification } from "web3uikit"
 
 export default function Fund() {
     const [price, setPrice] = useState(0)
-    const [update, setUpdate] = useState(price)
-    let fundPrice = (parseFloat(update) * 1e18).toString()
+    const [btnTxt, setBtnTxt] = useState("Fund")
+    let fundPrice = (parseFloat(price) * 1e18).toString()
     const { chainId: chainIdHex, isWeb3Enabled } = useMoralis()
     const chainId = parseInt(chainIdHex)
     const fundAddress =
@@ -29,6 +29,7 @@ export default function Fund() {
         await tx.wait(1)
         handleNewNotification(tx)
         window.location.reload(false)
+        setBtnTxt("Fund")
     }
     const handleNewNotification = function () {
         dispatch({
@@ -43,12 +44,16 @@ export default function Fund() {
         setPrice(event.target.value)
     }
     const handleClick = () => {
-        setUpdate(price)
+        setBtnTxt("Wait")
+        document.getElementById("fundBtn").disabled = true
         try {
             async function func() {
                 await fund({
                     onSuccess: handleSuccess,
-                    onError: (e) => console.log(e),
+                    onError: (e) => {
+                        console.log(e)
+                        setBtnTxt("Fund")
+                    },
                 })
             }
             func()
@@ -58,7 +63,7 @@ export default function Fund() {
     }
     return (
         <div className="text-center">
-            <h2 className="py-4 px-4 font-sans text-2xl">
+            <h2 className="py-4 mt-[80px] px-4 font-bold text-4xl tracking-widest">
                 Please help us by providing some funds!
             </h2>
             <input
@@ -69,11 +74,13 @@ export default function Fund() {
                 onChange={handleChange}
             />
             <button
-                className="bg-white px-2 rounded-md ml-4 text-black font-medium font-sans hover:bg-slate-300"
+                id="fundBtn"
+                className="bg-[#ADE792] px-3 py-1 rounded-md ml-4 text-black font-medium font-sans hover:bg-[#301E67]
+                hover:text-[#ECF9FF]"
                 onClick={handleClick}
                 disabled={isLoading || isFetching}
             >
-                Fund
+                {btnTxt}
             </button>
             <p className="text-xs">(Min Fundable Amount: 0.01ETH)</p>
         </div>

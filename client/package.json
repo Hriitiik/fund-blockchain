@@ -13,7 +13,6 @@
     "magic-sdk": "^13.2.0",
     "moralis-v1": "^1.12.0",
     "next": "13.1.6",
-    "next-themes": "^0.2.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-moralis": "^1.4.2",

@@ -76,39 +76,49 @@ export default function Details() {
     return (
         <div className="text-center">
             <br />
-            <p className="font-sans">Owner Address: {owner}</p> <br />
-            <p className="font-sans">
-                Total Amount Funded: {parseFloat(totalAmt) / parseFloat(1e18)}{" "}
-                Ethers
-            </p>
+            <p className="font-semibold">
+                Owner Address: <span className="text-[#B8621B]">{owner}</span>
+            </p>{" "}
             <br />
-            <p>
+            <p className="font-bold text-2xl">
+                Total Amount Funded:{" "}
+                <span className="text-[#B8621B]">
+                    {parseFloat(totalAmt) / parseFloat(1e18)} Ethers
+                </span>
+            </p>
+            <p className="font-bold text-2xl">
                 Current Amount in contract:{" "}
-                {parseFloat(currentBalance) / parseFloat(1e18)} Ethers
+                <span className="text-[#B8621B]">
+                    {parseFloat(currentBalance) / parseFloat(1e18)} Ethers
+                </span>
             </p>
             <br />
             {isWeb3Enabled ? (
                 account.toLowerCase() == owner.toLowerCase() ? (
                     <button
-                        className="bg-white px-2 rounded-md text-black font-medium font-sans hover:bg-slate-300"
+                        className="bg-[#ADE792] px-3 py-1 rounded-md text-black font-medium font-sans hover:bg-[#301E67] hover:text-[#ECF9FF]"
                         onClick={handleWithdraw}
                     >
                         Withdraw
                     </button>
                 ) : (
-                    <p className="font-sans">
-                        (⚠️ Funds can be withrawn by owner only! ⚠️)
-                    </p>
+                    <p className="font-sans"></p>
                 )
             ) : (
                 <p>Connect Your Wallet</p>
             )}
             <br />
             <br />
-            <p>Contract Address: {fundAddress}</p>
+            <p className="font-semibold">
+                Contract Address:{" "}
+                <span className="text-[#B8621B]">{fundAddress}</span>
+            </p>
             <br />
-            <p>
-                My Funded Amount: {parseFloat(myFund) / parseFloat(1e18)} Ethers
+            <p className="font-semibold">
+                My Funded Amount:{" "}
+                <span className="text-[#B8621B]">
+                    {parseFloat(myFund) / parseFloat(1e18)} Ethers
+                </span>
             </p>
         </div>
     )
