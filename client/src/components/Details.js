@@ -8,6 +8,7 @@ export default function Details() {
     const [owner, setOwner] = useState("0x00")
     const [totalAmt, setTotalAmt] = useState("0")
     const [currentBalance, setCurrentBalance] = useState("0")
+    const [wBtn, setWBtn] = useState("Withdraw")
     const [myFund, setMyFund] = useState("0")
     const chainId = parseInt(chainIdHex)
     const fundAddress =
@@ -65,9 +66,11 @@ export default function Details() {
             if (parseFloat(currentBalance) == 0) {
                 window.alert("No Balance in Contract!")
             } else {
+                setWBtn("Wait")
+                document.getElementById("wBtn").disabled = true
                 await withdraw()
                 window.alert("Withdrawn Successfully")
-                window.location.reload(false)
+                window.location.reload()
             }
         } catch (e) {
             window.alert(e)
@@ -96,10 +99,11 @@ export default function Details() {
             {isWeb3Enabled ? (
                 account.toLowerCase() == owner.toLowerCase() ? (
                     <button
+                        id="wBtn"
                         className="bg-[#ADE792] px-3 py-1 rounded-md text-black font-medium font-sans hover:bg-[#301E67] hover:text-[#ECF9FF]"
                         onClick={handleWithdraw}
                     >
-                        Withdraw
+                        {wBtn}
                     </button>
                 ) : (
                     <p className="font-sans"></p>
@@ -114,12 +118,20 @@ export default function Details() {
                 <span className="text-[#B8621B]">{fundAddress}</span>
             </p>
             <br />
-            <p className="font-semibold">
-                My Funded Amount:{" "}
-                <span className="text-[#B8621B]">
-                    {parseFloat(myFund) / parseFloat(1e18)} Ethers
-                </span>
-            </p>
+            {isWeb3Enabled ? (
+                account.toLowerCase() == owner.toLowerCase() ? (
+                    <p></p>
+                ) : (
+                    <p className="font-semibold">
+                        My Funded Amount:{" "}
+                        <span className="text-[#B8621B]">
+                            {parseFloat(myFund) / parseFloat(1e18)} Ethers
+                        </span>
+                    </p>
+                )
+            ) : (
+                <p>Connect Your Wallet</p>
+            )}
         </div>
     )
 }
